@@ -20,41 +20,38 @@ const HomeScreen = ({ navigation }) => {
     return matchesCategory && matchesSearch;
   });
 
-  const Header = () => (
-    <View>
-      <Text style={styles.hello}>Hello, Chef</Text>
-      <Text style={styles.title}>What are you{"\n"}cooking today?</Text>
-
-      <SearchBar value={search} onChangeText={setSearch} />
-
-      {/* Horizontal scrolling category chips */}
-      <FlatList
-        data={categories}
-        keyExtractor={(item) => item}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={styles.chips}
-        renderItem={({ item }) => (
-          <CategoryChip
-            label={item}
-            active={item === category}
-            onPress={() => setCategory(item)}
-          />
-        )}
-      />
-
-      <Text style={styles.sectionTitle}>
-        {visibleRecipes.length} recipe{visibleRecipes.length !== 1 ? "s" : ""}
-      </Text>
-    </View>
-  );
-
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
       <FlatList
         data={visibleRecipes}
         keyExtractor={(item) => item.id}
-        ListHeaderComponent={Header}
+        ListHeaderComponent={
+          <View>
+            <Text style={styles.hello}>Hello, Chef</Text>
+            <Text style={styles.title}>What are you{"\n"}cooking today?</Text>
+
+            <SearchBar value={search} onChangeText={setSearch} />
+
+            <FlatList
+              data={categories}
+              keyExtractor={(item) => item}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={styles.chips}
+              renderItem={({ item }) => (
+                <CategoryChip
+                  label={item}
+                  active={item === category}
+                  onPress={() => setCategory(item)}
+                />
+              )}
+            />
+
+            <Text style={styles.sectionTitle}>
+              {visibleRecipes.length} recipe{visibleRecipes.length !== 1 ? "s" : ""}
+            </Text>
+          </View>
+        }
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.list}
         renderItem={({ item }) => (
